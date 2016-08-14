@@ -1,14 +1,6 @@
-var mysql = require("mysql");
-
-// var connection = mysql.createConnection(require("../config/database.js"));
-// connection.connect();
-// connection.query('SELECT 1 + 1 AS solution', function (err, rows, fields) {
-//     if (err) throw err;
-
-//     console.log('The solution is: ', rows[0].solution);
-// });
-
-// connection.end();
+var Organization = require("./model/organization.js");
+// var mysqlhelper = require("./helper/dbHelper.js"); 
+var AzureADOrg = new Organization("AzureAD");
 
 function insert(table, object) {
     var sql = "INSERT INTO " + table;
@@ -22,3 +14,7 @@ function insert(table, object) {
     var sql_values = " VALUES (" + tmp.join(",") + ")";
     return sql + sql_columns + sql_values;
 }
+
+AzureADOrg.fillData().then(function (data) {
+    console.log(insert("organizations", data))
+})

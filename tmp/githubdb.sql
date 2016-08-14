@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version: 5.5.47)
-# Date: 2016-08-12 16:44:37
+# Date: 2016-08-15 01:15:45
 # Generator: MySQL-Front 5.3  (Build 4.234)
 
 /*!40101 SET NAMES utf8 */;
@@ -12,6 +12,12 @@ DROP TABLE IF EXISTS `organizations`;
 CREATE TABLE `organizations` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
+  `login` varchar(255) NOT NULL DEFAULT '',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `public_repos` tinyint(3) NOT NULL DEFAULT '0',
+  `public_gists` tinyint(3) NOT NULL DEFAULT '0',
+  `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -20,6 +26,7 @@ CREATE TABLE `organizations` (
 #
 
 /*!40000 ALTER TABLE `organizations` DISABLE KEYS */;
+INSERT INTO `organizations` VALUES (2966316,'Azure Active Directory','AzureAD','2012-12-04 23:19:57','2016-04-18 04:37:41',24,0,'');
 /*!40000 ALTER TABLE `organizations` ENABLE KEYS */;
 
 #

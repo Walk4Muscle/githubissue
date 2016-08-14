@@ -19,8 +19,35 @@ var repository = new Repository({
 
 var GitResHelper = require("./helper/githubRequestHelper.js");
 
-var reshelper = new GitResHelper({path:"/orgs/azuread/repos?per_page=1"});
+var reshelper = new GitResHelper({path:"/orgs/azuread/repos?per_page=1&page=5"});
+// reshelper.test();
+
+var length=0;
 reshelper.send().then(function(data){
+    console.log(data.body);
+    // return reshelper.page("next").send();
+    
     // reshelper.test();
-    console.log("data")
 })
+// .then(function(data){
+//     reshelper.test();
+// });
+
+// function iterateRequest(helper){
+//     return helper.send().then(function(data){
+//         console.log(data);
+//         length++;
+//         if(helper.pagination.next !== undefined){
+//             console.log(length);
+//             return iterateRequest(helper.page("next"));
+//         }
+//         // return reshelper.page("next").send();
+//         // reshelper.test();
+//     });
+// }
+
+// iterateRequest(reshelper)
+// .then(function(data){
+//     console.log(data);
+//     console.log("length:" + length);
+// })
