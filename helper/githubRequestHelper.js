@@ -1,5 +1,7 @@
 var request = require("request"),
-    Q = require("q");
+    Q = require("q"),
+    qs = require("querystring"),
+    config = require("../config/request.js");
     baseUri = "https://api.github.com";
 
 // var options = {
@@ -25,7 +27,7 @@ var GitResHelper = function(options){
     _.options.url = baseUri;
     _.options.headers = {
         "User-Agent":"request",
-        "Authorization":"token db948a89c662d49079ca89f3bd711a85a46b2816"
+        "Authorization":"token "+config.git_token
     };
     _.pagination = {};
 
@@ -54,9 +56,20 @@ var GitResHelper = function(options){
         }
     };
 
+    _.setPageNum = function(num){
+        // console.log(_.options.path)
+        var path = (_.options.path.split("?"))[0];
+        var querystring = (_.options.path.split("?"))[1];
+        // console.log(querystring);
+        var currentParam = qs.parse(querystring);
+        currentParam['per_page'] = num;
+        _.options.path = path + "?" + qs.stringify(currentParam);
+        // console.log(_.options.path)
+        _.setUrl(_.options.path);
+    }
     // set request url
     _.setUrl = function(url){
-        _.options.url = url;
+        _.options.url = baseUri + url;
     }
 
     //send http request 

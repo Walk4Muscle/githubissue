@@ -1,20 +1,58 @@
 var Organization = require("./model/organization.js");
-// var mysqlhelper = require("./helper/dbHelper.js"); 
-var AzureADOrg = new Organization("AzureAD");
+var mysqlhelper = require("./helper/dbHelper.js"); 
+var Repository = require("./model/repository.js");
+var GitResHelper = require("./helper/githubRequestHelper.js");
 
-function insert(table, object) {
-    var sql = "INSERT INTO " + table;
-    var sql_columns = " (" + (Object.keys(object).join(",")) + ")";
-    var tmp = [];
-    for (var key in object) {
-        if (object.hasOwnProperty(key)) {
-            tmp.push("\"" + object[key] + "\"");
+// var AzureADOrg = new Organization("azure-samples");
+
+// var db = new mysqlhelper();
+// AzureADOrg.fillData().then(function (data) {
+//     db.insert("organizations", data)
+// })
+
+var azureADSampleoptions = {
+    isSearch:true,
+    search_options:{
+        name: "active-directory",
+        query:{
+            in:"name",
+            org:"azure-samples"
         }
     }
-    var sql_values = " VALUES (" + tmp.join(",") + ")";
-    return sql + sql_columns + sql_values;
+};
+var options = {
+    isSearch:false,
+    name:"azuread"
 }
-
-AzureADOrg.fillData().then(function (data) {
-    console.log(insert("organizations", data))
-})
+var AzureADRepos = new Repository(options);
+// AzureADRepos.fillData().then(function(data){
+//     if(data){
+//         AzureADRepos.insertToDb(data);
+//     }
+// })
+var insert_count = 0;
+function queryAndInsert(repos){
+    repos.fillData().then(function(){
+        // console.log(repos.data)
+        repos.data.forEach(function(item){
+            // console.log(item)
+            repos.insertToDb(item)
+        })
+        // if(data){
+        //     repos.insertToDb(data);
+        //     insert_count++;
+        // }
+        // try {
+        //     repos.reshelper = repos.reshelper.page("next");
+        //     console.log(repos.reshelper.pagination);
+        //     queryAndInsert(repos);
+        // } catch (error) {
+        //     console.log(error);
+        //     console.log("inserted :"+insert_count);
+        // }
+    })
+}
+queryAndInsert(AzureADRepos);
+// var reshelper = new GitResHelper({path:"/search/repositories?q=active-directory+in:name+org:azure-samples"});
+// reshelper.setSinglePage();
+// reshelper.test();
