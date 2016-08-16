@@ -1,14 +1,14 @@
 var Q = require("q"),
     qs = require("querystring"),
     mysqlhelper = require("../helper/dbHelper.js");
-GitResHelper = require("../helper/githubRequestHelper.js");
+    GitResHelper = require("../helper/githubRequestHelper.js");
 
 var searchpath = "/search/repositories";
 function Repository(config) {
     var _ = this;
     _.options = {};
     _.structure = [
-        "id", "name", "full_name", "size", "stargazers_count", "watchers_count", "language", "has_issues", "forks_count", "open_issues_count", "forks", "open_issues", "watchers"
+        "id", "name", "url" ,"full_name", "size", "stargazers_count", "watchers_count", "language", "has_issues", "forks_count", "open_issues_count", "forks", "open_issues", "watchers"
     ];
     for (var key in config) {
         if (config.hasOwnProperty(key)) {
