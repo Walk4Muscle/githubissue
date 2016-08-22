@@ -71,12 +71,16 @@ var GitResHelper = function(options){
     _.setUrl = function(url){
         _.options.url = baseUri + url;
     }
-
+    _.setWholeUrl = function(url){
+        _.options.url = url;
+    }
     //send http request 
     _.send = function(){
         var deferred = Q.defer();
+        // console.log(_);
         request(_.options,function(err,data){
             if(err){
+                // console.log(err)
                 deferred.reject(new Error(err))
             }else{
                 // console.log(data.headers)

@@ -1,3 +1,3 @@
 module.exports = {
-    git_token : "143865e4be75ac7c9f99c94ff339cb136722581c",
+    git_token : "a41069e6f9f097f78340a691fd6f91b4889e1db9",
 };

@@ -1,4 +1,5 @@
-var mysql = require("mysql");
+var mysql = require("mysql"),
+    Q = require("q");
 // var connection = mysql.createConnection(require("../config/database.js"));
 // connection.connect();
 // connection.query('SELECT 1 + 1 AS solution', function (err, rows, fields) {
@@ -32,12 +33,45 @@ db.prototype.insert = function (table, object) {
     // var sql_values = " VALUES (" + tmp.join(",") + ")";
     // return this.execute(sql + sql_columns + sql_values);
     var connection = mysql.createConnection(require("../config/database.js"));
-    connection.query('INSERT INTO '+table+' SET ?', object, function (err, result) {
+    connection.query('INSERT INTO ' + table + ' SET ?', object, function (err, result) {
         if (err) throw err;
         console.log("successfully insert an item");
         // return result;
     });
     connection.end();
+}
+
+db.prototype.query = function (table, option) {
+    var deferred = Q.defer();
+    var option = option|{};
+    var connection = mysql.createConnection(require("../config/database.js"));
+    var sql = 'Select * from ' + table;
+    if(option.length !==0 ){
+        if(option.where !== undefined){
+            sql += ' where ' + option.where;
+        }
+    }
+    connection.query(sql, function (err, result, fields) {
+        if (err) throw err;
+        // console.log("successfully insert an item");
+        // console.log(result)
+        // console.log(fields)
+        // return result;
+        deferred.resolve(result)
+    });
+    connection.end();
+    return deferred.promise;
+}
+
+db.prototype.delete = function(table,id){
+    var deferred = Q.defer();
+    var connection = mysql.createConnection(require("../config/database.js"));
+    connection.query('delete from ' + table +  'where id = '+id, function (err, result, fields) {
+        if (err) throw err;
+        deferred.resolve(result)
+    });
+    connection.end();
+    return deferred.promise;
 }
 
 module.exports = db;

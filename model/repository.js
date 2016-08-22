@@ -29,7 +29,7 @@ function Repository(config) {
         // if (Object.keys(_.reshelper.pagination).length === 0 ) {
         //     _.reshelper.setSinglePage();
         // }
-        console.log(_.reshelper);
+        // console.log(_.reshelper);
         return _.reshelper.send();
     }
 
@@ -76,6 +76,11 @@ function Repository(config) {
 Repository.prototype.insertToDb = function (data) {
     var db = new mysqlhelper();
     db.insert("repositories", data)
+}
+
+Repository.prototype.query = function (option) {
+    var db = new mysqlhelper();
+    return db.query("repositories", option)
 }
 
 Repository.prototype.setQueryParam = function (params) {
