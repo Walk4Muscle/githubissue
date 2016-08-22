@@ -32,6 +32,8 @@ db.prototype.insert = function (table, object) {
     // }
     // var sql_values = " VALUES (" + tmp.join(",") + ")";
     // return this.execute(sql + sql_columns + sql_values);
+    // console.log(table)
+    // console.log(object)
     var connection = mysql.createConnection(require("../config/database.js"));
     connection.query('INSERT INTO ' + table + ' SET ?', object, function (err, result) {
         if (err) throw err;
@@ -43,14 +45,22 @@ db.prototype.insert = function (table, object) {
 
 db.prototype.query = function (table, option) {
     var deferred = Q.defer();
-    var option = option|{};
+    var option = option||{};
+    console.log('option '+option)
     var connection = mysql.createConnection(require("../config/database.js"));
     var sql = 'Select * from ' + table;
     if(option.length !==0 ){
         if(option.where !== undefined){
             sql += ' where ' + option.where;
         }
+        if(option.limit !== undefined){
+            sql += ' limit ' + option.limit;
+        }
+        if(option.sql !== undefined){
+            sql = option.sql;
+        }
     }
+    // console.log(sql)
     connection.query(sql, function (err, result, fields) {
         if (err) throw err;
         // console.log("successfully insert an item");

@@ -38,10 +38,13 @@ function Issue(options) {
                             console.log(item)
                             process.exit();
                         }
+                        if(item.pull_request !== undefined){
+                            tmp['is_pull_request'] = true;
+                        }
                         // console.log(key +" : "+item[key]);
                         if (_.structure.indexOf(key) != -1) {
                             // console.log(body[i][key]);
-                            tmp.key = item.key;
+                            tmp[key] = item[key];
                             // _.data[i][key] = body[i][key];
                         }
                     }
@@ -72,6 +75,7 @@ function Issue(options) {
 // }
 
 Issue.prototype.insertToDb = function (data) {
+    // console.log(data)
     var db = new mysqlhelper();
     db.insert("issues", data)
 }
@@ -83,15 +87,19 @@ Issue.prototype.deleteFromDb = function (id) {
 
 Issue.prototype.deleteAndInsert = function (data) {
     var db = new mysqlhelper();
+    // console.log(data)
     db.query("issues", { where: '`id`=' + data.id }).then(function (row) {
-        if (rows > 0) {
-            db.delete(data.id).then(function (row) {
-                if (row > 0) {
-                    db.insertToDb(data);
-                }
-            })
+        // console.log(row.length)
+        if (row.length > 0) {
+            console.log("do not need to insert");
+            // db.delete("issues", data.id).then(function (row) {
+            //     if (row > 0) {
+            //          db.insert("issues", data)
+            //     }
+            // })
         } else {
-            db.insertToDb(data);
+            console.log(data)
+            db.insert("issues", data)
         }
     })
 }

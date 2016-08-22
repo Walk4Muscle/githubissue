@@ -1,2 +1,3 @@
-config/request.js
+config
 .vscode
+node_modules
