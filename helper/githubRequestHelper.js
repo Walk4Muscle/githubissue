@@ -27,7 +27,8 @@ var GitResHelper = function(options){
     _.options.url = baseUri;
     _.options.headers = {
         "User-Agent":"request",
-        "Authorization":"token "+config.git_token
+        "Authorization":"token "+config.git_token,
+        "Accept":"application/vnd.github.squirrel-girl-preview"
     };
     _.pagination = {};
 

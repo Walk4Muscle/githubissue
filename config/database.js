@@ -5,8 +5,9 @@ module.exports = {
     port: 3306, // optional, defaults to database default
     user: "root",
     password: "root",
-    // query: {
-    //     pool: true // optional, false by defauls
-    // },
-    // debug: true
+    query: {
+        pool: true // optional, false by defauls
+    },
+    // debug: true,
+    connectionLimit : 1000,
 }

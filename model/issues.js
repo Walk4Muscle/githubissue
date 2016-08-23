@@ -34,13 +34,23 @@ function Issue(options) {
                         // console.log(key)
                         // console.log(body[i])
                         // console.log(_.structure.indexOf(key))
-                        if(item[key]===undefined){
+                        if (item[key] === undefined) {
                             console.log(item)
                             process.exit();
                         }
-                        if(item.pull_request !== undefined){
+                        if (item.pull_request !== undefined) {
                             tmp['is_pull_request'] = true;
                         }
+                        if (item.reactions.total_count !== 0) {
+                            tmp['has_reactions'] = true;
+                        }
+                        tmp['total_count'] = item.reactions['total_count'] || 0;
+                        tmp['vote_up'] = item.reactions['+1'] || 0;
+                        tmp['vote_down'] = item.reactions['-1'] || 0;
+                        tmp['laugh'] = item.reactions['laugh'] || 0;
+                        tmp['hooray'] = item.reactions['hooray'] || 0;
+                        tmp['confused'] = item.reactions['confused'] || 0;
+                        tmp['heart'] = item.reactions['heart'] || 0;
                         // console.log(key +" : "+item[key]);
                         if (_.structure.indexOf(key) != -1) {
                             // console.log(body[i][key]);
