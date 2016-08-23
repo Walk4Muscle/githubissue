@@ -9,5 +9,5 @@ module.exports = {
         pool: true // optional, false by defauls
     },
     // debug: true,
-    connectionLimit : 1000,
+    // connectionLimit : 1000,
 }

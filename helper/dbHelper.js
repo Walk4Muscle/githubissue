@@ -11,21 +11,20 @@ connection = mysql.createConnection(require("../config/database.js"));
 // connection.end();
 
 function db() {
-    // this.connection = mysql.createConnection(require("../config/database.js"));
-    // this.connection.connect();
+    this.connection = mysql.createConnection(require("../config/database.js"));
+    this.connection.connect();
  };
-db.prototype.self = function(){
-    console.log(this);
-}
+
 db.prototype.execute = function (sql) {
     // var connection = mysql.createConnection(require("../config/database.js"));
     // connection.connect();
-    var data = connection.query(sql, function (err, rows, fields) {
+    return this.connection.query(sql, function (err, rows, fields) {
         if (err) throw err;
-        return rows;
+        console.log("successfully update an item");
+        // return rows;
     });
     // connection.end();
-    return data;
+    // return data;
 }
 db.prototype.insert = function (table, object) {
     // var sql = "INSERT INTO " + table;
@@ -53,7 +52,7 @@ db.prototype.insert = function (table, object) {
 db.prototype.query = function (table, option) {
     var deferred = Q.defer();
     var option = option||{};
-    console.log('option '+option)
+    // console.log('option '+option)
     // var connection = mysql.createConnection(require("../config/database.js"));
     var sql = 'Select * from ' + table;
     if(option.length !==0 ){
@@ -68,7 +67,7 @@ db.prototype.query = function (table, option) {
         }
     }
     // console.log(sql)
-    connection.query(sql, function (err, result, fields) {
+    this.connection.query(sql, function (err, result, fields) {
         if (err) throw err;
         // console.log("successfully insert an item");
         // console.log(result)

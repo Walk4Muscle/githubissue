@@ -4,12 +4,13 @@ var GitResHelper = require("./helper/githubRequestHelper.js");
 
 var db = new mysqlhelper();
 var sql = "select * from issues where `created_at` between '2015-08-01' and '2016-07-31'";
-db.query("issues",{where:"`created_at` between '2015-08-01' and '2016-07-31'"}).then(function(data){
+db.query("issues",{where:"`created_at` between '2015-08-01' and '2016-07-31' and comments != 0"}).then(function(data){
+    // console.log(data.length);
+    // process.exit();
     data.forEach(function(item){
-        // console.log(item);
-        if(item.comments !=0 ){
+        // if(item.comments !=0 ){
             queryComment(item);
-        }
+        // }
     })
 })
 
@@ -21,12 +22,12 @@ function queryComment(issue){
     //.comments_url+"?per_page=1"
     reshelper.send().then(function(data){
         // data = JSON.stringify(data);
-        console.log(data)
-        var body = (data.body);
+        var body = JSON.parse(data.body);
+        // console.log((issue))
         console.log(body)
-        var sql = "UPDATE issues SET init_response_at = '"+body.created_at+"' where id ="+issue.id;
+        var sql = "UPDATE issues SET init_response_at = '"+body[0].created_at+"' where id ="+issue.Id;
         console.log(sql);
-        // db.execute(sql);
-        process.exit();
+        db.execute(sql);
+        // process.exit();
     })
 }
