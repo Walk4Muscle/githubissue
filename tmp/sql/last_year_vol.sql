@@ -1,1 +1,3 @@
 select  year(created_at) as year_date, month(created_at) as month_date, count(id) as volumn from issues where `created_at` between '2015-08-01' and '2016-07-31' and is_pull_request = 0 group by month(created_at) order by year_date,month_date asc;
+
+select /* year(created_at) as year_date, month(created_at) as month_date,*/ sum((UNIX_TIMESTAMP(init_response_at)-UNIX_TIMESTAMP(created_at))/60) as IR, count(id) as volume, repository_url from issues where `created_at` between '2015-08-01' and '2016-07-31' and comments !=0 and is_pull_request = 0 and init_response_at is not null/*and repository_url like '%AzureAD%' */group by /*month(created_at),*/repository_url order by year_date,month_date asc;

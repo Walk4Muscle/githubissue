@@ -1,7 +1,7 @@
 var mysql = require("mysql"),
     Q = require("q");
 connection = mysql.createConnection(require("../config/database.js"));
-// connection.connect();
+connection.connect();
 // connection.query('SELECT 1 + 1 AS solution', function (err, rows, fields) {
 //     if (err) throw err;
 
@@ -11,14 +11,14 @@ connection = mysql.createConnection(require("../config/database.js"));
 // connection.end();
 
 function db() {
-    this.connection = mysql.createConnection(require("../config/database.js"));
-    this.connection.connect();
+    // this.connection = mysql.createConnection(require("../config/database.js"));
+    // this.connection.connect();
  };
 
 db.prototype.execute = function (sql) {
     // var connection = mysql.createConnection(require("../config/database.js"));
     // connection.connect();
-    return this.connection.query(sql, function (err, rows, fields) {
+    return connection.query(sql, function (err, rows, fields) {
         if (err) throw err;
         console.log("successfully update an item");
         // return rows;
@@ -67,7 +67,7 @@ db.prototype.query = function (table, option) {
         }
     }
     // console.log(sql)
-    this.connection.query(sql, function (err, result, fields) {
+    connection.query(sql, function (err, result, fields) {
         if (err) throw err;
         // console.log("successfully insert an item");
         // console.log(result)
